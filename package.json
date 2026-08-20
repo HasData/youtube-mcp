@@ -1,0 +1,13 @@
+{
+  "name": "@hasdata/youtube-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Configuration and documentation for the HasData YouTube MCP server",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/HasData/youtube-mcp.git" },
+  "homepage": "https://hasdata.com/apis/youtube-scraper-api",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": { "node": ">=22" }
+}
