@@ -180,8 +180,6 @@ url = "https://mcp.hasdata.com/api/mcp?apis=youtube"
 
 </details>
 
-More client walkthroughs live on the [HasData integrations pages](https://hasdata.com/integrations/mcp?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp).
-
 ## Example prompts
 
 Prompts, not code. Paste one in and the agent picks the tool itself. Each is annotated with the calls it takes, because in MCP the model decides how many calls to make and every successful call costs 10 credits.
@@ -212,11 +210,13 @@ Paging costs a call each time. A research prompt that searches, pages twice, the
 
 ## Tools
 
-Four tools, all read-only. Samples below are trimmed from real calls, and the numbers in them move as YouTube updates, so read them as shapes.
+Four tools, all read-only. Samples below are trimmed from real calls, and the numbers in them move as YouTube updates, so read them as shapes. Each tool name links to its endpoint reference, which carries the full field list.
+
+The samples are the payload, not the whole response. A `tools/call` result carries one text block, and that text is itself JSON holding `url`, `status`, `text` and `json`, with the scraped data under `json`. From a raw JSON-RPC response the path is `result.content[0].text`, parsed, then `.json`. A chat client unwraps that for you and code talking to the endpoint directly does not.
 
 ### Get YouTube search results
 
-`hasdata_youtube_search_getYoutubeSearchResults`
+[`hasdata_youtube_search_getYoutubeSearchResults`](https://docs.hasdata.com/apis/youtube/search?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp)
 
 Searches YouTube and returns the whole results page, split by result type.
 
@@ -258,7 +258,7 @@ The [search endpoint reference](https://docs.hasdata.com/apis/youtube/search?utm
 
 ### Get YouTube video data
 
-`hasdata_youtube_video_getYoutubeVideo`
+[`hasdata_youtube_video_getYoutubeVideo`](https://docs.hasdata.com/apis/youtube/video?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp)
 
 One video by id.
 
@@ -285,11 +285,9 @@ Returns `title`, `thumbnail`, `channel`, `publishedDate`, `lengthSeconds`, `cate
 }
 ```
 
-Full field list in the [video endpoint reference](https://docs.hasdata.com/apis/youtube/video?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp).
-
 ### Get YouTube channel data
 
-`hasdata_youtube_channel_getYoutubeChannel`
+[`hasdata_youtube_channel_getYoutubeChannel`](https://docs.hasdata.com/apis/youtube/channel?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp)
 
 A channel by id or handle, one tab at a time.
 
@@ -317,11 +315,9 @@ Returns `channelInfo`, `featuredVideo` and `sections` on the default tab. Other 
 }
 ```
 
-Every tab and its shape are in the [channel endpoint reference](https://docs.hasdata.com/apis/youtube/channel?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp).
-
 ### Get YouTube video transcript
 
-`hasdata_youtube_transcript_getYoutubeTranscript`
+[`hasdata_youtube_transcript_getYoutubeTranscript`](https://docs.hasdata.com/apis/youtube/transcript?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp)
 
 The timed transcript of a video.
 
@@ -348,8 +344,6 @@ The timed transcript of a video.
 }
 ```
 
-Language codes and the `asr` flag are in the [transcript endpoint reference](https://docs.hasdata.com/apis/youtube/transcript?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp).
-
 ## Errors and failure paths
 
 Your client almost never sees an HTTP error code from a tool call. The MCP layer answers 200 and puts the failure inside the result, with `isError` set to `true` and the reason as text, so the agent reads a message where you might expect a status line.
@@ -358,7 +352,7 @@ Your client almost never sees an HTTP error code from a tool call. The MCP layer
 
 **A missing key is the one real HTTP error.** Authorization runs before any tool, so the connection itself fails with 401. CORS headers are present, and a browser client reads the status and not an opaque network failure.
 
-**An argument that breaks a tool's schema never leaves your client.** It fails as `MCP error -32602: Input validation error` naming the offending field. The call never reaches HasData and costs nothing. The message names the field but not the accepted values, so the parameter tables above are the reference.
+**An argument that breaks a tool's schema is rejected before it becomes a scrape.** The server answers with `isError: true` and the text `MCP error -32602: Input validation error`, naming the offending field. Nothing is fetched and nothing is charged. The message names the field but not the accepted values, so the parameter tables above are the reference.
 
 **A call that succeeds and finds nothing is the case that trips people up.** It arrives as an ordinary result with `requestMetadata.status` set to `ok` and the data key simply missing. Nothing in the body says the result was empty. Test for the field you need, not for an error.
 
@@ -372,7 +366,7 @@ Every YouTube tool costs **10 credits per successful call**. Response size does 
 
 The free trial is **1,000 credits over 30 days with no card**, which is 100 YouTube calls. After that an active account keeps getting 100 credits topped up each day whenever its balance drops below 100, so a low-volume agent runs on the free tier indefinitely.
 
-Paid plans start at **$49 a month** for 200,000 credits, which is 20,000 calls. The unit price falls with volume, from **$2.45 per 1,000 calls** on the entry plan to **$0.99** on Business, **$0.83** on Growth and **$0.75** on the largest high-volume plans. Current numbers live on the [pricing page](https://hasdata.com/prices?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp).
+Paid plans start at **$49 a month** for 200,000 credits, which is 20,000 calls. The unit price falls with volume, from **$2.45 per 1,000 calls** on the entry plan to **$0.99** on Business, **$0.83** on Growth and **$0.75** on the largest [high-volume plans](https://hasdata.com/prices?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp).
 
 Your plan also sets concurrency. The free trial allows 1 request at a time, Startup 15, Business 30, Growth 50, and the high-volume plans run from 200 to 1,500. Handle the overflow case defensively in anything unattended, because an agent that fans out will reach the ceiling before you do.
 
