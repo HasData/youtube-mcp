@@ -432,7 +432,7 @@ Nothing on your side. We track the changes and keep the response schema stable, 
 
 ### Can I use this together with other HasData APIs?
 
-Yes. The `apis` parameter takes a list, so `?apis=youtube,google_serp` gives your agent the four YouTube tools plus Google search. Drop the parameter and you get everything. See [Tool selection](#tool-selection).
+Yes. The `apis` parameter takes a list, so `?apis=youtube,google_serp` gives your agent the four YouTube tools plus Google search. [Drop the parameter](#tool-selection) and you get everything.
 
 ### Can I get a transcript for any video?
 
