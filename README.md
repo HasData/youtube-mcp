@@ -29,7 +29,7 @@ https://mcp.hasdata.com/api/mcp?apis=youtube
 
 ## What you need
 
-An MCP client that speaks streamable HTTP with custom headers. A HasData API key from the [dashboard](https://app.hasdata.com/sign-up?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp), free to create. Nothing else. This is a remote server, so there is no package to install, no container to run and no Google account anywhere in the flow.
+An MCP client that speaks streamable HTTP with custom headers. A HasData API key from the [dashboard](https://app.hasdata.com/sign-up?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp), free to create. Nothing else. This is a remote server. There is no package to install, no container to run and no Google account anywhere in the flow.
 
 ## Quick start
 
@@ -41,7 +41,7 @@ The server URL is the same for every client. Tested against the configs below wi
 | Transport | HTTP, streamable |
 | Auth header | `x-api-key: your_key_here` |
 
-Clients with OAuth support can add the same URL as a connector and sign in, so no key touches a config file.
+Clients with OAuth support can add the same URL as a connector and sign in without putting a key in a config file.
 
 <details>
 <summary><b>Claude Code</b></summary>
@@ -204,13 +204,13 @@ Prompts, not code. Paste one in and the agent picks the tool itself. Each is ann
 
 *One call, 10 credits.*
 
-Search takes YouTube's own filter tokens, so an agent narrows by duration, upload date and content type without post-processing. Transcripts arrive with the list of available language tracks, so the agent picks one without guessing.
+Search takes YouTube's own filter tokens, and an agent narrows by duration, upload date and content type without post-processing. Transcripts arrive with the list of available language tracks, which lets the agent pick one without guessing.
 
-Paging costs a call each time. A research prompt that searches, pages twice, then pulls three transcripts is six calls and 60 credits, so the trial goes further on narrow questions than on open-ended crawls.
+Paging costs a call each time. A research prompt that searches, pages twice, then pulls three transcripts is six calls and 60 credits. The trial goes further on narrow questions than on open-ended crawls.
 
 ## Tools
 
-Four tools, all read-only. Samples below are trimmed from real calls, and the numbers in them move as YouTube updates, so read them as shapes. Each tool name links to its endpoint reference, which carries the full field list.
+Four tools, all read-only. Samples below are trimmed from real calls, and the numbers in them move as YouTube updates. Read them as shapes. Each tool name links to its endpoint reference, which carries the full field list.
 
 The samples are the payload, not the whole response. A `tools/call` result carries one text block, and that text is itself JSON holding `url`, `status`, `text` and `json`, with the scraped data under `json`. From a raw JSON-RPC response the path is `result.content[0].text`, parsed, then `.json`. A chat client unwraps that for you and code talking to the endpoint directly does not.
 
@@ -232,7 +232,7 @@ Searches YouTube and returns the whole results page, split by result type.
 | `paginationToken` | string | | The `pagination.nextPageToken` from the previous response |
 | `gl` / `hl` / `deviceType` | string | | Two-letter country and language codes, and device |
 
-A results page is split across `videoResults`, `shortsResults`, `inlineShortsResults`, `playlistResults`, `channelResults` and `shelves`, with paid placements in `adsResults` and `sponsoredResults`. Which blocks appear depends on the query, and a block with nothing to report is absent, not empty, so test for the key before iterating. `searchInformation` carries the total and `pagination.nextPageToken` is what you feed back as `paginationToken`. Ads never mix into the organic arrays, though there are two of them to skip.
+A results page is split across `videoResults`, `shortsResults`, `inlineShortsResults`, `playlistResults`, `channelResults` and `shelves`, with paid placements in `adsResults` and `sponsoredResults`. Which blocks appear depends on the query, and a block with nothing to report is absent, not empty. Test for the key before iterating. `searchInformation` carries the total and `pagination.nextPageToken` is what you feed back as `paginationToken`. Ads never mix into the organic arrays, though there are two of them to skip.
 
 ```json
 {
@@ -252,7 +252,7 @@ A results page is split across `videoResults`, `shortsResults`, `inlineShortsRes
 }
 ```
 
-Two things there earn a mention. `views` is a parsed integer next to the `1.6M views` display string, so no suffix parser is needed here. And `chapters` come back inside search results, not only on the video itself, though only some videos carry them.
+Two things there earn a mention. `views` is a parsed integer next to the `1.6M views` display string and needs no suffix parser. And `chapters` come back inside search results, not only on the video itself, though only some videos carry them.
 
 The [search endpoint reference](https://docs.hasdata.com/apis/youtube/search?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp) lists every `sp` and `filters__` token the endpoint accepts.
 
@@ -346,11 +346,11 @@ The timed transcript of a video.
 
 ## Errors and failure paths
 
-Your client almost never sees an HTTP error code from a tool call. The MCP layer answers 200 and puts the failure inside the result, with `isError` set to `true` and the reason as text, so the agent reads a message where you might expect a status line.
+Your client almost never sees an HTTP error code from a tool call. The MCP layer answers 200 and puts the failure inside the result, with `isError` set to `true` and the reason as text. The agent reads a message where you might expect a status line.
 
 **A wrong key surfaces as tool output, not as a failed connection.** `tools/list` accepts any non-empty key and returns all four tools, so the client completes its handshake and shows green. The first tool call then comes back with `isError: true` and the text `HasData API error: 401 Unauthorized`. Watch for that string, because nothing earlier in the flow reports the problem.
 
-**A missing key is the one real HTTP error.** Authorization runs before any tool, so the connection itself fails with 401. CORS headers are present, and a browser client reads the status and not an opaque network failure.
+**A missing key is the one real HTTP error.** Authorization runs before any tool, and the connection itself fails with 401. CORS headers are present, and a browser client reads the status and not an opaque network failure.
 
 **An argument that breaks a tool's schema is rejected before it becomes a scrape.** The server answers with `isError: true` and the text `MCP error -32602: Input validation error`, naming the offending field. Nothing is fetched and nothing is charged. The message names the field but not the accepted values, so the parameter tables above are the reference.
 
@@ -362,7 +362,7 @@ Results that carry data also carry a `requestMetadata.id` worth quoting in suppo
 
 ## Pricing, free tier and limits
 
-Every YouTube tool costs **10 credits per successful call**. Response size does not change the price, so a full page of search results costs the same as a page with one video.
+Every YouTube tool costs **10 credits per successful call**. Response size does not change the price. A full page of search results costs the same as a page with one video.
 
 The free trial is **1,000 credits over 30 days with no card**, which is 100 YouTube calls. After that an active account keeps getting 100 credits topped up each day whenever its balance drops below 100, so a low-volume agent runs on the free tier indefinitely.
 
@@ -408,11 +408,11 @@ Most other YouTube MCP servers do transcripts only. This one also searches, read
 
 ### Is there an official YouTube MCP server?
 
-Google does not publish one. YouTube has no first-party MCP server, so every option is built by somebody else, either around the YouTube Data API v3 or around the public pages. This one is maintained by HasData and reads public pages, which is why it needs no Google credentials.
+Google does not publish one. YouTube has no first-party MCP server. Every option is built by somebody else, either around the YouTube Data API v3 or around the public pages. This one is maintained by HasData and reads public pages, which is why it needs no Google credentials.
 
 ### What is a YouTube MCP server?
 
-A server that exposes YouTube data as tools an AI client can call. The client sends a tool call over the Model Context Protocol, the server fetches the data and returns structured JSON, and the model works with the result and never sees a page of HTML. This one exposes four tools and runs remotely, so the client connects to a URL and starts no local process.
+A server that exposes YouTube data as tools an AI client can call. The client sends a tool call over the Model Context Protocol, the server fetches the data and returns structured JSON, and the model works with the result and never sees a page of HTML. This one exposes four tools and runs remotely. The client connects to a URL and starts no local process.
 
 ### Do I need a YouTube API key or a Google Cloud project?
 
@@ -424,15 +424,15 @@ No. This is a remote MCP server on streamable HTTP. Nothing to install, no conta
 
 ### Is the data live or cached?
 
-Live. Each call fetches the page at request time and carries its own `requestMetadata.id`, so two identical calls are two separate fetches and not a replay of a stored copy. Counters like views and likes track the page, so they move as the page moves.
+Live. Each call fetches the page at request time and carries its own `requestMetadata.id`. Two identical calls are two separate fetches and not a replay of a stored copy. Counters like views and likes track the page, so they move as the page moves.
 
 ### What happens when YouTube changes its layout?
 
-Nothing on your side. We track the changes and keep the response schema stable, so field names and types stay put. A field with no value is absent from the item, not present and null, so read optional fields with a default.
+Nothing on your side. We track the changes and keep the response schema stable, so field names and types stay put. A field with no value is absent from the item, not present and null. Read optional fields with a default.
 
 ### Can I use this together with other HasData APIs?
 
-Yes. The `apis` parameter takes a list, so `?apis=youtube,google_serp` gives your agent the four YouTube tools plus Google search. [Drop the parameter](#tool-selection) and you get everything.
+Yes. The `apis` parameter takes a list, and `?apis=youtube,google_serp` gives your agent the four YouTube tools plus Google search. [Drop the parameter](#tool-selection) and you get everything.
 
 ### Can I get a transcript for any video?
 
@@ -460,7 +460,7 @@ HasData accesses publicly available data only. A platform's terms may restrict a
 
 ## Development
 
-This repository is configuration and documentation for a remote server, so there is no build step and nothing to containerize.
+This repository is configuration and documentation for a remote server. There is no build step and nothing to containerize.
 
 The tests in `test/` assert the tool contract, the part that can break without a commit here. They check that `?apis=youtube` returns exactly four tools, that every tool still declares its required parameter, that no name changed, and that the key in use is actually accepted. That last check calls a tool for real and costs 10 credits, which is the price of a canary that can fail for the right reason.
 
@@ -476,7 +476,7 @@ The same suite runs in CI on every push and once a week on a schedule, because t
 
 ## Contributing
 
-Corrections to the tool tables and the response samples are the most useful contribution, because those are the parts that drift. Include the call you made and the response you got. Pull requests from forks run the suite without a key, so the live checks skip and nothing goes red.
+Corrections to the tool tables and the response samples are the most useful contribution, because those are the parts that drift. Include the call you made and the response you got. Pull requests from forks run the suite without a key, and the live checks skip instead of going red.
 
 ## License
 
