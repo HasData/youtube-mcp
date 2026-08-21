@@ -39,7 +39,7 @@ The server URL is the same for every client. We run it hands-on in Claude Code a
 | :--- | :--- |
 | URL | `https://mcp.hasdata.com/api/mcp?apis=youtube` |
 | Transport | HTTP, streamable |
-| Auth header | `x-api-key: your_key_here` |
+| Auth header | `x-api-key: HASDATA_API_KEY` |
 
 Clients with OAuth support can add the same URL as a connector and sign in without putting a key in a config file.
 
@@ -48,7 +48,7 @@ Clients with OAuth support can add the same URL as a connector and sign in witho
 
 ```bash
 claude mcp add --transport http youtube "https://mcp.hasdata.com/api/mcp?apis=youtube" \
-  --header "x-api-key: your_key_here"
+  --header "x-api-key: HASDATA_API_KEY"
 ```
 
 </details>
@@ -70,7 +70,7 @@ For the config-file route, Claude Desktop loads only local (stdio) servers, so a
         "mcp-remote",
         "https://mcp.hasdata.com/api/mcp?apis=youtube",
         "--header",
-        "x-api-key:your_key_here"
+        "x-api-key:HASDATA_API_KEY"
       ]
     }
   }
@@ -91,7 +91,7 @@ The `x-api-key:` value carries no space after the colon. Claude Desktop passes t
   "mcpServers": {
     "youtube": {
       "url": "https://mcp.hasdata.com/api/mcp?apis=youtube",
-      "headers": { "x-api-key": "your_key_here" }
+      "headers": { "x-api-key": "HASDATA_API_KEY" }
     }
   }
 }
@@ -109,7 +109,7 @@ The `x-api-key:` value carries no space after the colon. Claude Desktop passes t
   "mcpServers": {
     "youtube": {
       "serverUrl": "https://mcp.hasdata.com/api/mcp?apis=youtube",
-      "headers": { "x-api-key": "your_key_here" }
+      "headers": { "x-api-key": "HASDATA_API_KEY" }
     }
   }
 }
@@ -126,7 +126,7 @@ The `x-api-key:` value carries no space after the colon. Claude Desktop passes t
     "youtube": {
       "url": "https://mcp.hasdata.com/api/mcp?apis=youtube",
       "type": "streamableHttp",
-      "headers": { "x-api-key": "your_key_here" },
+      "headers": { "x-api-key": "HASDATA_API_KEY" },
       "disabled": false
     }
   }
@@ -146,7 +146,7 @@ The `x-api-key:` value carries no space after the colon. Claude Desktop passes t
     "youtube": {
       "type": "http",
       "url": "https://mcp.hasdata.com/api/mcp?apis=youtube",
-      "headers": { "x-api-key": "your_key_here" }
+      "headers": { "x-api-key": "HASDATA_API_KEY" }
     }
   }
 }
@@ -164,7 +164,7 @@ The `x-api-key:` value carries no space after the colon. Claude Desktop passes t
 url = "https://mcp.hasdata.com/api/mcp?apis=youtube"
 
 [mcp_servers.youtube.headers]
-"x-api-key" = "your_key_here"
+"x-api-key" = "HASDATA_API_KEY"
 ```
 
 </details>
@@ -179,7 +179,7 @@ url = "https://mcp.hasdata.com/api/mcp?apis=youtube"
   "mcpServers": {
     "youtube": {
       "httpUrl": "https://mcp.hasdata.com/api/mcp?apis=youtube",
-      "headers": { "x-api-key": "your_key_here" }
+      "headers": { "x-api-key": "HASDATA_API_KEY" }
     }
   }
 }
