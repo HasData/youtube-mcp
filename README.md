@@ -1,5 +1,7 @@
 # YouTube MCP Server
 
+<!-- mcp-name: com.hasdata/youtube -->
+
 A hosted Model Context Protocol (MCP) server that gives Claude, Cursor, Windsurf and any other MCP client four read-only YouTube tools. Search YouTube, read video and channel data, and pull transcripts, with no Google Cloud project and no YouTube Data API key.
 
 ```
