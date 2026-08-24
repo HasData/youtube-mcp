@@ -32,7 +32,7 @@ https://mcp.hasdata.com/api/mcp?apis=youtube
 
 ## What you need
 
-An MCP client that speaks streamable HTTP with custom headers. A HasData API key from the [dashboard](https://app.hasdata.com/sign-up?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp), free to create. Nothing else. This is a remote server. There is no package to install, no container to run and no Google account anywhere in the flow.
+An MCP client that speaks streamable HTTP with custom headers. A HasData API key from the [dashboard](https://app.hasdata.com/sign-up?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp), free to create. Nothing else. This is a remote server, so the simplest path is a URL and a header, with no container to run and no Google account anywhere in the flow. A stdio-only client can use the `@hasdata/youtube-mcp` (npm) or `hasdata-youtube-mcp` (PyPI) launcher instead.
 
 ## Quick start
 
@@ -61,26 +61,33 @@ claude mcp add --transport http youtube "https://mcp.hasdata.com/api/mcp?apis=yo
 
 Settings, then Connectors, then Add custom connector, then paste `https://mcp.hasdata.com/api/mcp?apis=youtube` and sign in.
 
-For the config-file route, Claude Desktop loads only local (stdio) servers, so a remote server is reached through the `mcp-remote` bridge, which needs Node. Add this to `claude_desktop_config.json`:
+For the config-file route, Claude Desktop loads only local (stdio) servers, so it reaches a remote server through a stdio launcher. The `@hasdata/youtube-mcp` package is that launcher, and it reads the key from the environment. Add this to `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "youtube": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.hasdata.com/api/mcp?apis=youtube",
-        "--header",
-        "x-api-key:HASDATA_API_KEY"
-      ]
+      "args": ["-y", "@hasdata/youtube-mcp"],
+      "env": { "HASDATA_API_KEY": "YOUR_KEY" }
     }
   }
 }
 ```
 
-The `x-api-key:` value carries no space after the colon. Claude Desktop passes the argument without a shell, and a space splits the header.
+Python instead of Node? Swap the launcher for the PyPI package, which `uvx` runs without a manual install:
+
+```json
+{
+  "mcpServers": {
+    "youtube": {
+      "command": "uvx",
+      "args": ["hasdata-youtube-mcp"],
+      "env": { "HASDATA_API_KEY": "YOUR_KEY" }
+    }
+  }
+}
+```
 
 </details>
 
