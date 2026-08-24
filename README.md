@@ -8,6 +8,7 @@ A hosted Model Context Protocol (MCP) server that gives Claude, Cursor, Windsurf
 https://mcp.hasdata.com/api/mcp?apis=youtube
 ```
 
+[![Glama score](https://glama.ai/mcp/servers/HasData/youtube-mcp/badges/score.svg)](https://glama.ai/mcp/servers/HasData/youtube-mcp)
 [![tool contract](https://github.com/HasData/youtube-mcp/actions/workflows/contract.yml/badge.svg)](https://github.com/HasData/youtube-mcp/actions/workflows/contract.yml)
 [![MCP](https://img.shields.io/badge/MCP-remote%20%7C%20streamable%20HTTP-6366f1?style=flat-square)](https://modelcontextprotocol.io)
 [![Tools](https://img.shields.io/badge/tools-4-10b981?style=flat-square)](#tools)
