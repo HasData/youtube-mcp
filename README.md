@@ -12,6 +12,8 @@ https://mcp.hasdata.com/api/mcp?apis=youtube
 [![tool contract](https://github.com/HasData/youtube-mcp/actions/workflows/contract.yml/badge.svg)](https://github.com/HasData/youtube-mcp/actions/workflows/contract.yml)
 [![MCP](https://img.shields.io/badge/MCP-remote%20%7C%20streamable%20HTTP-6366f1?style=flat-square)](https://modelcontextprotocol.io)
 [![Tools](https://img.shields.io/badge/tools-4-10b981?style=flat-square)](#tools)
+[![npm](https://img.shields.io/npm/v/@hasdata/youtube-mcp?style=flat-square&logo=npm&label=npm&color=cb3837)](https://www.npmjs.com/package/@hasdata/youtube-mcp)
+[![PyPI](https://img.shields.io/pypi/v/hasdata-youtube-mcp?style=flat-square&logo=pypi&logoColor=white&label=PyPI&color=3775a9)](https://pypi.org/project/hasdata-youtube-mcp/)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
 ## Contents
@@ -474,6 +476,8 @@ HasData accesses publicly available data only. A platform's terms may restrict a
 | Everything else we scrape | [YouTube Scraper API and 54 more](https://hasdata.com/apis/?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp) |
 | Plans and credit costs | [Plans and credit costs](https://hasdata.com/prices?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp) |
 | Keys and usage | [HasData dashboard](https://app.hasdata.com?utm_source=github&utm_medium=syndication&utm_campaign=youtube-mcp) |
+| Node launcher on npm | [@hasdata/youtube-mcp](https://www.npmjs.com/package/@hasdata/youtube-mcp) |
+| Python launcher on PyPI | [hasdata-youtube-mcp](https://pypi.org/project/hasdata-youtube-mcp/) |
 
 ## Development
 

@@ -3,7 +3,7 @@
   "name": "com.hasdata/youtube",
   "title": "HasData YouTube",
   "description": "Search YouTube and read video, channel and transcript data as JSON. No Google Cloud project.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "websiteUrl": "https://hasdata.com/apis/youtube-scraper-api",
   "repository": {
     "url": "https://github.com/HasData/youtube-mcp",
@@ -27,8 +27,10 @@
     {
       "registryType": "npm",
       "identifier": "@hasdata/youtube-mcp",
-      "version": "1.0.1",
-      "transport": { "type": "stdio" },
+      "version": "1.0.2",
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
         {
           "name": "HASDATA_API_KEY",
@@ -41,9 +43,11 @@
     {
       "registryType": "pypi",
       "identifier": "hasdata-youtube-mcp",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "runtimeHint": "uvx",
-      "transport": { "type": "stdio" },
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
         {
           "name": "HASDATA_API_KEY",

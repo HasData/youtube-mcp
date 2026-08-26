@@ -1,16 +1,40 @@
 {
   "name": "@hasdata/youtube-mcp",
   "mcpName": "com.hasdata/youtube",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for YouTube data (search, video, channel, transcript) through HasData's hosted API. No Google Cloud project, no YouTube Data API key.",
   "type": "module",
-  "bin": { "hasdata-youtube-mcp": "index.mjs" },
-  "files": ["index.mjs", "README.md", "LICENSE"],
-  "scripts": { "test": "node --test" },
-  "dependencies": { "mcp-remote": "^0.1.43" },
-  "engines": { "node": ">=18" },
+  "bin": {
+    "hasdata-youtube-mcp": "index.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "mcp-remote": "^0.1.43"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/HasData/youtube-mcp.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HasData/youtube-mcp.git"
+  },
   "homepage": "https://hasdata.com/apis/youtube-scraper-api",
-  "keywords": ["mcp", "youtube", "youtube-mcp", "youtube-mcp-server", "model-context-protocol", "hasdata", "scraper", "transcript"]
+  "keywords": [
+    "mcp",
+    "youtube",
+    "youtube-mcp",
+    "youtube-mcp-server",
+    "model-context-protocol",
+    "hasdata",
+    "scraper",
+    "transcript"
+  ]
 }
