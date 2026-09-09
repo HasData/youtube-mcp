@@ -2,7 +2,7 @@
   "name": "@hasdata/youtube-mcp",
   "mcpName": "com.hasdata/youtube",
   "version": "1.0.2",
-  "description": "MCP server for YouTube data (search, video, channel, transcript) through HasData's hosted API. No Google Cloud project, no YouTube Data API key.",
+  "description": "MCP server for YouTube data (search, video, channel, transcript) through HasData's hosted API. No Google Cloud project, no YouTube Data API key. 1,000 free credits every month.",
   "type": "module",
   "bin": {
     "hasdata-youtube-mcp": "index.mjs"
