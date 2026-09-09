@@ -227,7 +227,7 @@ Prompts, not code. Paste one in and the agent picks the tool itself. Each is ann
 
 Search takes YouTube's own filter tokens, and an agent narrows by duration, upload date and content type without post-processing. Transcripts arrive with the list of available language tracks, which lets the agent pick one without guessing.
 
-Paging costs a call each time. A research prompt that searches, pages twice, then pulls three transcripts is six calls and 60 credits. The trial goes further on narrow questions than on open-ended crawls.
+Paging costs a call each time. A research prompt that searches, pages twice, then pulls three transcripts is six calls and 60 credits. The free tier goes further on narrow questions than on open-ended crawls.
 
 ## Tools
 
@@ -416,7 +416,7 @@ Against the official **YouTube Data API v3**:
 | Transcripts of videos you do not own | `captions.download` "requires the user to have permission to edit the video", per [Google's reference](https://developers.google.com/youtube/v3/docs/captions/download) | Yes, with the language list |
 | Chapters in search results | No | Yes |
 | Views and likes in search results | Absent, and a second `videos.list` call returns them as strings | Display string and integer in the same response |
-| Cost | Free inside the daily quota | Paid past the trial, 10 credits a call |
+| Cost | Free inside the daily quota | Paid past the free tier, 10 credits a call |
 | Writes and private data | Uploads, playlists, comments and your own analytics over OAuth | Read-only, public data only |
 
 The last two rows matter. If the daily quota covers your volume and you own the channel you are querying, the official API is the cheaper answer and you should take it.
