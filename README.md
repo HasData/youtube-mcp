@@ -231,12 +231,12 @@ Paging costs a call each time. A research prompt that searches, pages twice, the
 
 ## Tools
 
-| Tool | Credits | What it returns |
-| :--- | :--- | :--- |
-| `hasdata_youtube_channel_getYoutubeChannel` | 10 | Channel identity (title, description, avatar, banner, country, join date), subscriber and total-view counts, social links, and the items on the requested tab (videos… |
-| `hasdata_youtube_search_getYoutubeSearchResults` | 10 | Searches YouTube for a query and returns the full results page split into `videoResults` (videoId, title, views, length, publish date, chapters, channel info, extensions… |
-| `hasdata_youtube_transcript_getYoutubeTranscript` | 10 | The timed transcript (subtitles) of a YouTube video by its 11-character `videoId` |
-| `hasdata_youtube_video_getYoutubeVideo` | 10 | Title, thumbnail, raw + normalized views and likes, `lengthSeconds`, publish date, category, keywords/tags, `isFamilySafe` / `isUnlisted` flags, the uploading channel… |
+| Tool | What it returns |
+| --- | --- |
+| `hasdata_youtube_channel_getYoutubeChannel` | Channel identity (title, description, avatar, banner, country, join date), subscriber and total-view counts, social links, and the items on the requested tab (videos…. 10 credits a call |
+| `hasdata_youtube_search_getYoutubeSearchResults` | Searches YouTube for a query and returns the full results page split into `videoResults` (videoId, title, views, length, publish date, chapters, channel info, extensions…. 10 credits a call |
+| `hasdata_youtube_transcript_getYoutubeTranscript` | The timed transcript (subtitles) of a YouTube video by its 11-character `videoId`. 10 credits a call |
+| `hasdata_youtube_video_getYoutubeVideo` | Title, thumbnail, raw + normalized views and likes, `lengthSeconds`, publish date, category, keywords/tags, `isFamilySafe` / `isUnlisted` flags, the uploading channel…. 10 credits a call |
 
 Four tools, all read-only. Samples below are trimmed from real calls, and the numbers in them move as YouTube updates. Read them as shapes. Each tool name links to its endpoint reference, which carries the full field list.
 
