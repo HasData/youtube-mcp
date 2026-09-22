@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "hasdata-youtube-mcp",
+  "version": "1.0.2",
+  "description": "YouTube MCP server for Cursor. Search videos, read video and channel data and pull transcripts as structured JSON, with no Google Cloud project or YouTube Data API key to manage. Remote MCP server hosted by HasData, connects over streamable HTTP with your HasData API key.",
+  "author": {
+    "name": "HasData",
+    "url": "https://hasdata.com"
+  },
+  "homepage": "https://hasdata.com/apis/youtube-scraper-api",
+  "repository": "https://github.com/HasData/youtube-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "youtube",
+    "youtube-mcp",
+    "youtube-mcp-server",
+    "model-context-protocol",
+    "hasdata",
+    "scraper",
+    "transcript"
+  ],
+  "logo": "https://hasdata.com/favicon.svg"
+}
