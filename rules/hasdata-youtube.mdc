@@ -1,0 +1,42 @@
+---
+description: How to pull YouTube search, video metadata, channels and transcripts through the HasData MCP server
+alwaysApply: false
+---
+
+# YouTube through HasData
+
+Four tools. `hasdata_youtube_search_getYoutubeSearchResults` takes `q`, `hasdata_youtube_video_getYoutubeVideo` and `hasdata_youtube_transcript_getYoutubeTranscript` take a video id as `v`, and `hasdata_youtube_channel_getYoutubeChannel` takes `channelId`, which also accepts an `@handle`.
+
+## The search page is five lists, not one
+
+Results split into `videoResults`, `inlineShortsResults`, `playlistResults`, `adsResults` and `sponsoredResults`. Reading only the first misses the shorts and the playlists, and folding the last two into the organic set reports paid placements as rankings.
+
+`searchInformation.totalResults` sizes the query, and `pagination.nextPageToken` goes back in as `paginationToken` for the next page.
+
+`sortBy` takes `relevance`, `popularity`, `rating`, `date` or `views`. `date` narrows to `hour`, `today`, `week`, `month` or `year`, `videoType` to `video`, `shorts`, `channel`, `playlist` or `movie`, and `length` to `under4`, `between420` or `plus20`. `filters__`, spelled with two underscores, takes flags including `subtitles`, which is how to keep only videos that have a transcript to read.
+
+## Counts use two opposite conventions
+
+In the search and channel payloads `views` is the number and `viewsOriginal` is the printed string. The video call reverses it, where `views` reads `"482,284 views"` and `extractedViews` holds `482284`, the same way as `extractedLikes` and `channel.extractedSubscribers`. Read the type rather than the name, and sort on whichever one is numeric.
+
+`publishedDate` is a relative string such as `4 years ago`, so it cannot be turned into a date. A window belongs in the `date` filter rather than in post-processing.
+
+## What the search already answers
+
+`videoResults` entries carry `chapters` on many rows as `title` and `time` pairs. That is a video's structure with no second call behind it, and it is the cheapest signal here for deciding what to open.
+
+The video call adds `lengthSeconds`, `category`, `keywords`, `isFamilySafe`, `isUnlisted`, `likes` with `extractedLikes`, a `description` split into `content` and `links`, a `channel` block, `captions`, `relatedVideos`, `endScreenVideos` and an `aiSummary`.
+
+## Transcripts, and a silent failure
+
+`transcript` is an array of segments with `startMs`, `endMs`, `snippet` and `startTimeText`, so quoting a moment means citing the segment. `availableTranscripts` lists the tracks with a `languageCode`, a `type` where `asr` is machine-generated, and `selected` marking the one you received. `type` is also an input, so passing `asr` forces the automatic track.
+
+A video id that does not resolve still answers 200 with `requestMetadata.status` of `ok` and no `transcript` and no `availableTranscripts` keys at all. Check the key exists before summarising, because its absence is a failed lookup rather than a video with nothing in it.
+
+## Channels are tab-addressed
+
+`tab` takes `featured`, `videos`, `shorts`, `streams`, `playlists`, `posts`, `community`, `podcasts`, `releases`, `about` or `store`. The content lands in `sections`, each with a `title` and an `items` array where a video carries `duration` rather than `length`, alongside a separate `featuredVideo`.
+
+`channelInfo.availableTabs` lists display labels such as `Home` and `Search`, not `tab` values. `Home` is the `featured` tab and `Search` is not a tab you can request, so map the labels rather than lowercasing them.
+
+Each successful call spends credits, and a transcript is a second call, so read `captions` on the video first.
