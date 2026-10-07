@@ -14,6 +14,7 @@ https://mcp.hasdata.com/mcp?apis=youtube
 [![tool contract](https://github.com/HasData/youtube-mcp/actions/workflows/contract.yml/badge.svg)](https://github.com/HasData/youtube-mcp/actions/workflows/contract.yml)
 [![MCP](https://img.shields.io/badge/MCP-remote%20%7C%20streamable%20HTTP-6366f1?style=flat-square)](https://modelcontextprotocol.io)
 [![Tools](https://img.shields.io/badge/tools-4-10b981?style=flat-square)](#tools)
+- [Prompts and resources](#prompts-and-resources)
 [![npm](https://img.shields.io/npm/v/@hasdata/youtube-mcp?style=flat-square&logo=npm&label=npm&color=cb3837)](https://www.npmjs.com/package/@hasdata/youtube-mcp)
 [![PyPI](https://img.shields.io/pypi/v/hasdata-youtube-mcp?style=flat-square&logo=pypi&logoColor=white&label=PyPI&color=3775a9)](https://pypi.org/project/hasdata-youtube-mcp/)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
@@ -371,6 +372,32 @@ The timed transcript of a video.
   ]
 }
 ```
+
+## Prompts and resources
+
+The server ships 2 prompts, ready-made workflows a client can offer instead of making the user compose a tool call.
+
+| Prompt | What it does |
+| --- | --- |
+| `youtube_search` | Find YouTube videos and channels about a topic. |
+| `youtube_transcript` | Summarize what is said in a YouTube video. |
+
+Alongside them the server exposes 10 resources, one per parameter whose accepted values are a fixed list. Reading one is cheaper than learning the vocabulary from a rejected call, and it costs no credits. Each URI is `hasdata://youtube/<parameter>`.
+
+| Parameter | Values | What it selects |
+| --- | ---: | --- |
+| `tab` | 11 | Channel tab to scrape. Each tab returns a different content shape: - `featured` (default) — channel Home page (channel trailer + curated rows) - `videos` — uploaded long-form videos - `shorts` — Shorts feed - `streams` — past and upcoming live streams - `playlists` — created and saved playlists - `posts` / `community` — community posts - `podcasts` — podcast episodes - `releases` — music releases - `about` — channel description, links, stats - `store` — channel merch |
+| `gl` | 245 | The two-letter country code for the country you want to limit the search to. |
+| `hl` | 159 | The two-letter language code for the language you want to use for the search. |
+| `deviceType` | 2 | Device type for the request. |
+| `sortBy` | 5 | Sort order applied to the results page. `relevance` (default) — best match for the query; `date` — newest first; `views` — most viewed first; `rating` — highest rated first; `popularity` — trending/most popular. |
+| `date` | 5 | Limit results to videos uploaded within this time window relative to now. |
+| `videoType` | 5 | Restrict results to a single YouTube content type — regular videos, Shorts, channels, playlists, or movies. |
+| `length` | 3 | Filter by video duration bucket: - `under4` — under 4 minutes - `between420` — 4 to 20 minutes - `plus20` — over 20 minutes |
+| `filters__` | 11 | Feature flags to require on results. Multiple values are combined with AND (every flag must apply). - `hd` — HD quality - `k4` — 4K quality - `hdr` — HDR - `subtitles` — has subtitles/closed captions - `cc` — Creative Commons license - `d3` — 3D video - `d360` — 360° video - `vr180` — VR180 video - `live` — currently live - `bought` — purchased/paid content - `location` — has a geographic location tag |
+| `type` | 1 | Set to `asr` to fetch the YouTube auto-generated (speech-recognition) track. Omit to fetch the human-authored track for `languageCode` when one exists. |
+
+Both lists are served without an API key, so a client can read them before a user has signed up.
 
 ## Errors and failure paths
 
