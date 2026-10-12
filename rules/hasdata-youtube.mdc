@@ -40,3 +40,9 @@ A video id that does not resolve still answers 200 with `requestMetadata.status`
 `channelInfo.availableTabs` lists display labels such as `Home` and `Search`, not `tab` values. `Home` is the `featured` tab and `Search` is not a tab you can request, so map the labels rather than lowercasing them.
 
 Each successful call spends credits, and a transcript is a second call, so read `captions` on the video first.
+
+## Prompts and resources
+
+The server also serves resources that spell out the accepted values of every parameter that takes a fixed list, each one at `hasdata://youtube/<parameter>`. Reading one spends no credits and makes no upstream request, which beats discovering the vocabulary from a rejected call. Listing them needs no API key either, so a client can read them before the user has connected an account.
+
+Ready-made prompts cover the usual workflows. Offer one of those before composing a tool call by hand.
